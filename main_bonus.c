@@ -27,17 +27,18 @@ void	close_pipes(int **pipes, int count)
 	}
 }
 
-void	first_child(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_count)
+void	first_child(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_count, int i)
 {
 	dup2(fd_input, STDIN_FILENO);
-	dup2(fd[1][1], STDOUT_FILENO);
+	if (pipe_count == 1)
+		dup2(fd[i][1], STDOUT_FILENO);
+	else
+		dup2(fd[i + 1][1], STDOUT_FILENO);
 	close_pipes(fd, pipe_count);
 	close(fd_output);
 	close(fd_input);
-
-	perror("i am the first child\n");
-	execve(cmds[0].cmd_path, cmds[0].cmd_args, cmds[0].envp);
-	perror("somtithin whent wrogn with execve\n");
+	execve(cmds[i].cmd_path, cmds[i].cmd_args, cmds[i].envp);
+	perror("something whent wrogn with execve\n");
 }
 
 void	other_childs(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_count, int i)
@@ -47,9 +48,9 @@ void	other_childs(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_c
 	close_pipes(fd, pipe_count);
 	close(fd_output);
 	close(fd_input);
-	perror("i am an other child\n");
+	// perror("i am an other child\n");
 	execve(cmds[i].cmd_path, cmds[i].cmd_args, cmds[i].envp);
-	perror("somtithin whent wrogn with execve\n");
+	perror("something whent wrogn with execve\n");
 }
 
 void	last_child(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_count, int i)
@@ -59,9 +60,9 @@ void	last_child(int **fd, int fd_input, int fd_output, t_cmd *cmds, int pipe_cou
 	close_pipes(fd, pipe_count);
 	close(fd_output);
 	close(fd_input);
-	perror("i am the last child\n");
+	// perror("i am the last child\n");
 	execve(cmds[i].cmd_path, cmds[i].cmd_args, cmds[i].envp);
-	perror("somtithin whent wrogn with execve\n");
+	perror("somthing whent wrogn with execve\n");
 }
 
 int	**generat_pipes(t_main_args args)
@@ -94,23 +95,17 @@ void	forked(int **pipes, t_cmd *cmd, t_main_args args, int infile, int outfile)
 
 	pipe_num = args.argc - 4;
 	i = 0;
-	while (i < pipe_num)
+	while (i <= pipe_num)
 	{
 		id = fork();
 		if (id == 0)
 		{
 			if (i == 0)
-			{
-				first_child(pipes, infile, outfile, cmd, pipe_num);
-			}
+				first_child(pipes, infile, outfile, cmd, pipe_num, i);
 			else if (i == pipe_num)
-			{
 				last_child(pipes, infile, outfile, cmd, pipe_num, i);
-			}
 			else
-			{
 				other_childs(pipes, infile, outfile, cmd, pipe_num, i);
-			}
 		}
 		i++;
 	}
@@ -134,7 +129,7 @@ void	pipex(int fd_input, int fd_output, t_main_args args)
 	close(fd_output);
 	close(fd_input);
 	
-	// waitpid(id_1, 0, 0);
+	waitpid(id_1, 0, 0);
 	while(waitpid(-1, 0, 0) >= 0);
 }
 
@@ -147,7 +142,24 @@ t_main_args	set_args(int argc, char **argv, char **envp)
 	args.envp = envp;
 	return (args);
 }
+// void	print_cmds(t_cmd *cmds, t_main_args args)
+// {
+// 	int i;
+// 	int	j;
 
+// 	i = 0;
+// 	while (i < args.argc - 3)
+// 	{
+// 		j = 0;
+// 		printf("cmd path : %s\n", cmds->cmd_path);
+// 		while (cmds[i].cmd_args[j] != NULL)
+// 		{
+// 			printf("cmd args : %s\n", cmds[i].cmd_args[j]);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 int main(int argc, char **argv, char **envp)
 {
 	int	fd_input;
