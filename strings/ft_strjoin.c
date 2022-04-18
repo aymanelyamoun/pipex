@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 01:47:44 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/15 03:49:04 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/18 22:37:42 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_strcat(char *s1, const char *s2)
 	*s1 = '\0';
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_1(char const *s1, char const *s2)
 {
 	int		total_len;
 	char	*allocat;
