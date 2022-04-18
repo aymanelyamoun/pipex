@@ -59,13 +59,13 @@ char	*get_cmd_path(char *path, char *cmd)
 	char	**paths;
 	char	*cmd_path;
 
-	i = 2;
+	i = 0;
 	if (access(cmd, F_OK | X_OK) == 0)
 			return(cmd);
 	paths = ft_split(path, ':');
-	while (paths[i - 2] != NULL)
+	while (paths[i - 0] != NULL)
 	{
-		cmd_path = join_cmd(paths[i - 2], cmd);
+		cmd_path = join_cmd(paths[i - 0], cmd);
 		if (access(cmd_path, F_OK | X_OK) == 0)
 		{
 			free(paths);

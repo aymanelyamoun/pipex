@@ -20,7 +20,7 @@ void	cmd_not_found(char *msg)
 	exit(3);
 }
 
-t_cmd	*get_cmds(t_main_args args)
+t_cmd	*get_cmds(t_main_args args, int ignore)
 {
 	int		i;
 	t_cmd	*cmds;
@@ -29,16 +29,16 @@ t_cmd	*get_cmds(t_main_args args)
 	cmds = NULL;
 	if (args.argc >= 5)
 	{
-		i = 2;
+		i = ignore;
 		path = get_path(args.envp);
 		if (path == NULL)
 			ft_exit_with_err(3, "coudn't find the path of the cmd\n");
-		cmds = malloc(sizeof(t_cmd) * args.argc - 3);
+		cmds = malloc(sizeof(t_cmd) * args.argc - (ignore + 1));
 		while (i < args.argc - 1)
 		{
-			cmds[i - 2].cmd_args = ft_split(args.argv[i], ' ');
-			cmds[i - 2].cmd_path = get_cmd_path(path, cmds[i - 2].cmd_args[0]);
-			cmds[i - 2].envp = args.envp;
+			cmds[i - ignore].cmd_args = ft_split(args.argv[i], ' ');
+			cmds[i - ignore].cmd_path = get_cmd_path(path, cmds[i - ignore].cmd_args[0]);
+			cmds[i - ignore].envp = args.envp;
 			i++;
 		}
 	}

@@ -3,13 +3,14 @@ NAME_BONUS = pipex_bonus
 CC = cc
 FLAGS = -Wall -Wextra -Werror
 OBJ = main.o strings/ft_split.o strings/ft_strdup.o strings/ft_strjoin.o strings/ft_strlen.o strings/ft_strncmp.o pipex_utils.o cmd_managment.o
-OBJ_BONUS = main_bonus.o strings/ft_split.o strings/ft_strdup.o strings/ft_strjoin.o strings/ft_strlen.o strings/ft_strncmp.o pipex_utils.o cmd_managment.o
+OBJ_BONUS = main_bonus.o strings/ft_split.o strings/ft_strdup.o strings/ft_strjoin.o strings/ft_strlen.o strings/ft_strncmp.o pipex_utils.o cmd_managment.o\
+get_next_line/get_next_line.o get_next_line/get_next_line_utils.o
 
 all : $(NAME)
 
 $(NAME) : $(OBJ) pipex.h
 	$(CC) $(OBJ) -o $(NAME)
-bonus : $(OBJ_BONUS) pipex.h
+bonus : $(OBJ_BONUS) pipex.h get_next_line/get_next_line.h
 	$(CC) $(OBJ_BONUS) -o $(NAME_BONUS)
 
 %.o : %.c

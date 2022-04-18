@@ -12,7 +12,7 @@ typedef struct	s_cmd
 	char	*cmd_path;
 	char	**cmd_args;
 	char	**envp;
-} t_cmd;
+}	t_cmd;
 
 typedef struct	s_main_args
 {
@@ -20,6 +20,14 @@ typedef struct	s_main_args
 	char	**argv;
 	char	**envp;
 }	t_main_args;
+
+typedef	struct	s_data
+{
+	t_cmd		*cmd;
+	t_main_args	args;
+	int			infile;
+	int			outfile;
+}	t_data;
 
 /************ STRING HANDLERS *************/
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -38,7 +46,7 @@ void	cmd_not_found(char *msg);
 
 char	*get_path(char **envp);
 char	*get_cmd_path(char *path, char *cmd);
-t_cmd	*get_cmds(t_main_args args);
+t_cmd	*get_cmds(t_main_args args, int ignore);
 void	cmd_not_found(char *msg);
 
 #endif
