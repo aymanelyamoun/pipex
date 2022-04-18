@@ -129,7 +129,7 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 	id_1 = fork();
 	if (id_1 == 0)
 		forked(pipes, data, ignore);
-	close_pipes(pipes, args.argc - 4);
+	close_pipes(pipes, args.argc - ignore - 2);
 	close(fd_output);
 	close(fd_input);
 	waitpid(id_1, 0, 0);
@@ -156,29 +156,75 @@ int		ft_strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
+void	write_to_fd(int fd, char *str)
+{
+	int	status;
+	char	*new_str;
+
+	new_str = ft_strjoin(str, "\n");
+	status = write(fd, new_str, ft_strlen(new_str));
+	if(str != NULL)
+		free(str);
+	if (new_str != NULL)
+		free(new_str);
+	if (status == -1)
+		exit(2);
+}
+void	print_cmds(t_cmd *cmds, t_main_args args)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	while (i < args.argc - 3)
+	{
+		j = 0;
+		printf("cmd path : %s\n", cmds->cmd_path);
+		while (cmds[i].cmd_args[j] != NULL)
+		{
+			printf("cmd args : %s\n", cmds[i].cmd_args[j]);
+			j++;
+		}
+		i++;
+	}
+}
+void	ft_heredoc(t_main_args args)
+{
+	char	*line;
+	int		fd;
+	// t_cmd	*cmds;
+	int		fd_out;
+
+	if (args.argc >= 6)
+	{
+		fd = open("herdoc", O_CREAT | O_RDWR, 0777);
+		fd_out = open(args.argv[args.argc - 1], O_CREAT | O_RDWR, 0777);
+		write(1, "heredoc > ", 10);
+		line = get_next_line(0);
+		while ((line != NULL) && (ft_strcmp(args.argv[2], line) != 0) )
+		{
+			write(1, "heredoc > ", 10);
+			write_to_fd(fd, line);
+			line = get_next_line(0);
+		}
+		pipex(fd, fd_out, args, 3);
+	}
+	exit(0);
+}
 
 int main(int argc, char **argv, char **envp)
 {
 	int			fd_input;
 	int			fd_output;
 	t_main_args	args;
-	// int	here_doc = 1;
 	
 	args = set_args(argc, argv, envp);
-	// if (here_doc == 1)
-	// 	ft_here_doc();
-	fd_input = open(argv[1], O_RDWR, 0777);
+	if (1)
+		ft_heredoc(args);
 	fd_output = open(argv[argc - 1], O_RDWR | O_CREAT, 0777);
+	fd_input = open(argv[1], O_RDWR, 0777);
 	pipex(fd_input, fd_output, args, 2);
 	close(fd_output);
 	close(fd_input);
 	exit(0);
 }
-
-// cultures 
-// you can talke about your culteres 
-// culteres of countries that enterstes you 
-// what is enteristing about that culture
-// art and food 
-// you can choose any aspect
-

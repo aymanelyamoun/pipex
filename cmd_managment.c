@@ -46,9 +46,9 @@ static char	*join_cmd(char *path, char *cmd)
 	char	*cmd_path;
 	char	*to_free;
 
-	cmd_path = ft_strjoin("/", cmd);
+	cmd_path = ft_strjoin_1("/", cmd);
 	to_free = cmd_path;
-	cmd_path = ft_strjoin(path, cmd_path);
+	cmd_path = ft_strjoin_1(path, cmd_path);
 	free(to_free);
 	return(cmd_path);
 }
