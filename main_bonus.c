@@ -68,19 +68,17 @@ int	**generat_pipes(t_main_args args, int ignore)
 {
 	int		pipes_num;
 	int		i;
-	int		*fd;
 	int		**pipes;
 
 	pipes_num = args.argc - ignore - 2;
 	if (args.argc < 5)
 		ft_exit_with_err(1, "not enough args for the program\n");
-	pipes = malloc(pipes_num * sizeof(int));
+	pipes = malloc(pipes_num * sizeof(int*));
 	i = 0;
 	while (i < pipes_num)
 	{
-		fd = malloc(sizeof(int) * 2);
-		pipe(fd);
-		pipes[i] = fd;
+		pipes[i] = malloc(sizeof(int) * 2);
+		pipe(pipes[i]);
 		i++;
 	}
 	return (pipes);
@@ -113,18 +111,25 @@ void	forked(int **pipes, t_data data, int ignore)
 	close(data.outfile);
 }
 
-void	free_cmds(t_cmd *cmds)
+void	free_cmds(t_cmd *cmds, int ignore, t_main_args args)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (cmds->cmd_args[i] != NULL)
+	j = 0;
+	while (i < args.argc - (ignore + 1))
 	{
-		free(cmds->cmd_args[i]);
-		free(cmds->cmd_path);
+		j = 0;
+		while (cmds[i].cmd_args[j] != NULL)
+		{
+			free(cmds[i].cmd_args[j]);
+			j++;
+		}
+		free(cmds[i].cmd_args);
+		free(cmds[i].cmd_path);
 		i++;
 	}
-	
 	free(cmds);
 }
 
@@ -164,11 +169,12 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 	close(fd_input);
 	if (id_1 != 0)
 	{
-		free_cmds(cmds);
+		free_cmds(cmds, ignore, args);
 		free_pipes(pipes, args, ignore);
 	}
 	waitpid(id_1, 0, 0);
 	while(waitpid(-1, 0, 0) >= 0);
+	
 }
 
 t_main_args	set_args(int argc, char **argv, char **envp)
@@ -222,15 +228,16 @@ void	ft_heredoc(t_main_args args)
 			write_to_fd(fd, line);
 			line = get_next_line(0);
 		}
+		free(line);
+		free(limiter);
 		close(fd);
 		fd = open("herdoc", O_CREAT | O_RDWR, 0777);
 		pipex(fd, fd_out, args, 3);
 		unlink("herdoc");
 		close(fd_out);
+		exit(0);
 	}
-	else
-		ft_exit_with_err(1, "not enough argements for here_doc\n");
-	exit(0);
+	ft_exit_with_err(1, "not enough argements for here_doc\n");
 }
 
 int main(int argc, char **argv, char **envp)
@@ -239,7 +246,6 @@ int main(int argc, char **argv, char **envp)
 	int			fd_output;
 	t_main_args	args;
 
-	// atexit(f);
 	args = set_args(argc, argv, envp);
 	if (ft_strcmp(argv[1], "here_doc") == 0)
 		ft_heredoc(args);
@@ -248,6 +254,5 @@ int main(int argc, char **argv, char **envp)
 	pipex(fd_input, fd_output, args, 2);
 	close(fd_output);
 	close(fd_input);
-	// while (1)
 	exit(0);
 }

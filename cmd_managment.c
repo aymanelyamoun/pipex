@@ -37,8 +37,8 @@ static void	free_arr(char **arr)
 			free(arr[i]);
 			i++;
 		}
+		free(arr);
 	}
-	free(arr);
 }
 
 static char	*join_cmd(char *path, char *cmd)
@@ -46,13 +46,13 @@ static char	*join_cmd(char *path, char *cmd)
 	char	*cmd_path;
 	char	*to_free;
 
-	cmd_path = ft_strjoin_1("/", cmd);
-	to_free = cmd_path;
-	cmd_path = ft_strjoin_1(path, cmd_path);
+	to_free = ft_strjoin_1("/", cmd);
+	cmd_path = ft_strjoin_1(path, to_free);
 	free(to_free);
 	return(cmd_path);
 }
 #include <string.h>
+
 char	*get_cmd_path(char *path, char *cmd)
 {
 	int		i;
@@ -63,14 +63,15 @@ char	*get_cmd_path(char *path, char *cmd)
 	if (access(cmd, F_OK | X_OK) == 0)
 			return(cmd);
 	paths = ft_split(path, ':');
-	while (paths[i - 0] != NULL)
+	while (paths[i] != NULL)
 	{
-		cmd_path = join_cmd(paths[i - 0], cmd);
+		cmd_path = join_cmd(paths[i], cmd);
 		if (access(cmd_path, F_OK | X_OK) == 0)
 		{
-			free(paths);
+			free_arr(paths);
 			return(cmd_path);
 		}
+		free(cmd_path);
 		i++;
 	}
 	free_arr(paths);
