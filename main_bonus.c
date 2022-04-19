@@ -113,6 +113,34 @@ void	forked(int **pipes, t_data data, int ignore)
 	close(data.outfile);
 }
 
+void	free_cmds(t_cmd *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds->cmd_args[i] != NULL)
+	{
+		free(cmds->cmd_args[i]);
+		i++;
+	}
+	free(cmds);
+}
+
+void	free_pipes(int	**pipes, t_main_args args, int	ignore)
+{
+	int	pipe_num;
+	int	i;
+
+	pipe_num = args.argc - ignore - 2;
+	i = 0;
+	while (i < pipe_num)
+	{
+		free(pipes[i]);
+		i++;
+	}
+	free(pipes);
+}
+
 void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 {
 	int		**pipes;
@@ -132,6 +160,11 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 	close_pipes(pipes, args.argc - ignore - 2);
 	close(fd_output);
 	close(fd_input);
+	if (id_1 != 0)
+	{
+		free_cmds(cmds);
+		free_pipes(pipes, args, ignore);
+	}
 	waitpid(id_1, 0, 0);
 	while(waitpid(-1, 0, 0) >= 0);
 }
@@ -166,24 +199,7 @@ void	write_to_fd(int fd, char *str)
 	if (status == -1)
 		exit(2);
 }
-void	print_cmds(t_cmd *cmds, t_main_args args)
-{
-	int i;
-	int	j;
 
-	i = 0;
-	while (i < args.argc - 3)
-	{
-		j = 0;
-		printf("cmd path : %s\n", cmds->cmd_path);
-		while (cmds[i].cmd_args[j] != NULL)
-		{
-			printf("cmd args : %s\n", cmds[i].cmd_args[j]);
-			j++;
-		}
-		i++;
-	}
-}
 void	ft_heredoc(t_main_args args)
 {
 	char	*line;
@@ -210,6 +226,8 @@ void	ft_heredoc(t_main_args args)
 		unlink("herdoc");
 		close(fd_out);
 	}
+	else
+		ft_exit_with_err(1, "not enough argements for here_doc\n");
 	exit(0);
 }
 
@@ -220,7 +238,7 @@ int main(int argc, char **argv, char **envp)
 	t_main_args	args;
 	
 	args = set_args(argc, argv, envp);
-	if (1)
+	if (ft_strcmp(argv[1], "here_doc") == 0)
 		ft_heredoc(args);
 	fd_output = open(argv[argc - 1], O_RDWR | O_CREAT, 0777);
 	fd_input = open(argv[1], O_RDWR, 0777);
