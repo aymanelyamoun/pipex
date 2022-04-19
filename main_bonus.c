@@ -121,8 +121,10 @@ void	free_cmds(t_cmd *cmds)
 	while (cmds->cmd_args[i] != NULL)
 	{
 		free(cmds->cmd_args[i]);
+		free(cmds->cmd_path);
 		i++;
 	}
+	
 	free(cmds);
 }
 
@@ -236,7 +238,8 @@ int main(int argc, char **argv, char **envp)
 	int			fd_input;
 	int			fd_output;
 	t_main_args	args;
-	
+
+	// atexit(f);
 	args = set_args(argc, argv, envp);
 	if (ft_strcmp(argv[1], "here_doc") == 0)
 		ft_heredoc(args);
@@ -245,5 +248,6 @@ int main(int argc, char **argv, char **envp)
 	pipex(fd_input, fd_output, args, 2);
 	close(fd_output);
 	close(fd_input);
+	// while (1)
 	exit(0);
 }
