@@ -159,14 +159,10 @@ int		ft_strcmp(char *s1, char *s2)
 void	write_to_fd(int fd, char *str)
 {
 	int	status;
-	char	*new_str;
 
-	new_str = ft_strjoin(str, "\n");
-	status = write(fd, new_str, ft_strlen(new_str));
+	status = write(fd, str, ft_strlen(str));
 	if(str != NULL)
 		free(str);
-	if (new_str != NULL)
-		free(new_str);
 	if (status == -1)
 		exit(2);
 }
@@ -192,8 +188,8 @@ void	ft_heredoc(t_main_args args)
 {
 	char	*line;
 	int		fd;
-	// t_cmd	*cmds;
 	int		fd_out;
+	char	*limiter;
 
 	if (args.argc >= 6)
 	{
@@ -201,13 +197,18 @@ void	ft_heredoc(t_main_args args)
 		fd_out = open(args.argv[args.argc - 1], O_CREAT | O_RDWR, 0777);
 		write(1, "heredoc > ", 10);
 		line = get_next_line(0);
-		while ((line != NULL) && (ft_strcmp(args.argv[2], line) != 0) )
+		limiter = ft_strjoin_1(args.argv[2], "\n");
+		while ((line != NULL) && (ft_strcmp(limiter, line) != 0))
 		{
 			write(1, "heredoc > ", 10);
 			write_to_fd(fd, line);
 			line = get_next_line(0);
 		}
+		close(fd);
+		fd = open("herdoc", O_CREAT | O_RDWR, 0777);
 		pipex(fd, fd_out, args, 3);
+		unlink("herdoc");
+		close(fd_out);
 	}
 	exit(0);
 }
