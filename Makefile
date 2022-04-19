@@ -11,17 +11,17 @@ all : $(NAME)
 $(NAME) : $(OBJ) pipex.h
 	$(CC) $(OBJ) -o $(NAME)
 bonus : $(OBJ_BONUS) pipex.h get_next_line/get_next_line.h
-	$(CC) $(OBJ_BONUS) -o $(NAME_BONUS)
+	@$(CC) $(OBJ_BONUS) -o $(NAME_BONUS)
 
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean :
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 fclean : clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 clean_bonus :
-	rm -rf $(OBJ_BONUS)
+	@rm -rf $(OBJ_BONUS)
 fclean_bonus : clean_bonus
-	rm -rf $(NAME_BONUS)
+	@rm -rf $(NAME_BONUS)
 re : fclean all
