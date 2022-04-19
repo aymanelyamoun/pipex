@@ -33,7 +33,7 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 		path = get_path(args.envp);
 		if (path == NULL)
 			ft_exit_with_err(3, "coudn't find the path of the cmd\n");
-		cmds = malloc(sizeof(t_cmd) * args.argc - (ignore + 1));
+		cmds = malloc(sizeof(t_cmd) * (args.argc - (ignore + 1)));
 		while (i < args.argc - 1)
 		{
 			cmds[i - ignore].cmd_args = ft_split(args.argv[i], ' ');
@@ -41,6 +41,7 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 			cmds[i - ignore].envp = args.envp;
 			i++;
 		}
+		free(path);
 	}
 	return (cmds);
 }
