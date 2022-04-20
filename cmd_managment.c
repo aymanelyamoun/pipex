@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_managment.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 02:38:06 by ael-yamo          #+#    #+#             */
+/*   Updated: 2022/04/20 02:38:46 by ael-yamo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -7,7 +19,7 @@
 #include "pipex.h"
 #include <stdlib.h>
 
-char *get_path(char **envp)
+char	*get_path(char **envp)
 {
 	int		i;
 	char	*path;
@@ -51,7 +63,6 @@ static char	*join_cmd(char *path, char *cmd)
 	free(to_free);
 	return(cmd_path);
 }
-#include <string.h>
 
 char	*get_cmd_path(char *path, char *cmd)
 {
