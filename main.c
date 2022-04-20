@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 06:27:02 by ael-yamo          #+#    #+#             */
+/*   Updated: 2022/04/20 06:45:38 by ael-yamo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -35,7 +47,7 @@ void	second_child(int fd_input, int fd_output, int fd[2], t_cmd *cmds)
 
 void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 {
-	int 	fd[2];
+	int		fd[2];
 	int		id_1;
 	int		id_2;
 	t_cmd	*cmds;
@@ -58,18 +70,18 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(id_1, 0, 0);
-	while(waitpid(-1, 0, 0) >= 0);
+	waitpid(id_2, 0, 0);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	int	fd_input;
-	int	fd_output;
+	int			fd_input;
+	int			fd_output;
 	t_main_args	args;
 
 	args = set_args(argc, argv, envp);
-	fd_input = open(argv[1], O_RDWR, 0777);
-	fd_output = open(argv[4], O_RDWR | O_CREAT, 0777);
+	fd_input = open(argv[1], O_RDONLY, 0777);
+	fd_output = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	pipex(fd_input, fd_output, args, 2);
 	close(fd_output);
 	close(fd_input);

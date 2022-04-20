@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 06:54:21 by ael-yamo          #+#    #+#             */
+/*   Updated: 2022/04/20 06:55:15 by ael-yamo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -47,7 +59,8 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 		while (i < args.argc - 1)
 		{
 			cmds[i - ignore].cmd_args = ft_split(args.argv[i], ' ');
-			cmds[i - ignore].cmd_path = get_cmd_path(path, cmds[i - ignore].cmd_args[0]);
+			cmds[i - ignore].cmd_path = get_cmd_path(path, \
+			cmds[i - ignore].cmd_args[0]);
 			cmds[i - ignore].envp = args.envp;
 			i++;
 		}
@@ -65,7 +78,7 @@ int	**generat_pipes(t_main_args args, int ignore)
 	pipes_num = args.argc - ignore - 2;
 	if (args.argc < 5)
 		ft_exit_with_err(1, "not enough args for the program\n");
-	pipes = malloc(pipes_num * sizeof(int*));
+	pipes = malloc(pipes_num * sizeof(int *));
 	i = 0;
 	while (i < pipes_num)
 	{
