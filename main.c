@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:27:02 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 06:45:38 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 07:20:17 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 	pipe(fd);
 	cmds = get_cmds(args, ignore);
 	if (cmds == NULL)
-		ft_exit_with_err(3, "couldn't generat the cmds\n");
+		ft_exit_with_err(2, "couldn't generat the cmds\n");
 	id_1 = fork();
 	if (id_1 == -1)
-		ft_exit_with_err(1, "somthing whent wrong with the forking : \n");
+		ft_exit_with_err(3, "somthing whent wrong with the forking : \n");
 	if (id_1 == 0)
 		first_child(fd_input, fd_output, fd, cmds);
 	id_2 = fork();
 	if (id_2 == -1)
-		ft_exit_with_err(1, "somthing whent wrong with the forking : \n");
+		ft_exit_with_err(3, "somthing whent wrong with the forking : \n");
 	if (id_2 == 0)
 		second_child(fd_input, fd_output, fd, cmds);
 	free_cmds(cmds, ignore, args);
