@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 06:25:21 by ael-yamo          #+#    #+#             */
+/*   Updated: 2022/04/20 06:26:18 by ael-yamo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -8,7 +20,7 @@
 #include <stdlib.h>
 #include "get_next_line/get_next_line.h"
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	while (*s1 && (*s1 == *s2))
 	{
@@ -23,13 +35,13 @@ void	write_to_fd(int fd, char *str)
 	int	status;
 
 	status = write(fd, str, ft_strlen(str));
-	if(str != NULL)
+	if (str != NULL)
 		free(str);
 	if (status == -1)
 		exit(2);
 }
 
-char	*call_gnl()
+char	*call_gnl(void)
 {
 	char	*line;
 
@@ -62,18 +74,9 @@ void	ft_heredoc(t_main_args args)
 		fd_out = open(args.argv[args.argc - 1], O_CREAT | O_RDWR, 0777);
 		write(1, "heredoc > ", 10);
 		line = call_gnl();
-		write(1, line, ft_strlen(line));
 		limiter = ft_strjoin_1(args.argv[2], "\n");
 		while ((line != NULL) && (ft_strcmp(limiter, line) != 0))
-		{
 			line = call_gnl_and_write_fd(fd, line);
-			write(1, line, ft_strlen(line));
-		}
-		// {
-		// 	write(1, "heredoc > ", 10);
-		// 	write_to_fd(fd, line);
-		// 	line = call_gnl();
-		// }
 		free(line);
 		free(limiter);
 		close(fd);
