@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 02:38:06 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 07:26:41 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 19:53:24 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ char	*get_cmd_path(char *path, char *cmd)
 	}
 	free_arr(paths);
 	cmd_not_found(cmd);
-	return (0);
+	return (NULL);
 }
