@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:54:21 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 08:19:17 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 19:53:14 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	cmd_not_found(char *msg)
 {
 	perror(msg);
 	perror(" : cmmand not found");
-	exit(3);
 }
 
 t_main_args	set_args(int argc, char **argv, char **envp)
