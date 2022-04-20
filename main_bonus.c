@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:48:03 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 06:50:11 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 07:34:51 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	forked(int **pipes, t_data data, int ignore)
 	while (i <= pipe_num)
 	{
 		id = fork();
+		if (id == -1)
+			ft_exit_with_err(3, "somthing whent wrong with the forking : \n");
 		if (id == 0)
 		{
 			if (i == 0)
@@ -60,21 +62,6 @@ void	forked(int **pipes, t_data data, int ignore)
 	close(data.outfile);
 }
 
-void	free_pipes(int **pipes, t_main_args args, int ignore)
-{
-	int	i;
-	int	pipe_num;
-
-	pipe_num = args.argc - ignore - 2;
-	i = 0;
-	while (i < pipe_num)
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
-}
-
 void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 {
 	int		**pipes;
@@ -83,6 +70,8 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 
 	pipes = generat_pipes(args, ignore);
 	cmds = get_cmds(args, ignore);
+	if (cmds == NULL)
+		cmds_fail(pipes, ignore, args);
 	data.args = args;
 	data.infile = fd_input;
 	data.outfile = fd_output;

@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:50:43 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 06:53:49 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 08:20:12 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_main_args	set_args(int argc, char **argv, char **envp);
 int			**generat_pipes(t_main_args args, int ignore);
 void		close_pipes(int **pipes, int count);
 void		free_cmds(t_cmd *cmds, int ignore, t_main_args args);
+void		free_pipes(int **pipes, t_main_args args, int ignore);
+void		fail_to_generat_pipes(int **pipes, int i);
 // t_data	*set_data(t_main_args args);
 
 /************   CMD MANGMENT   *************/
@@ -66,6 +68,8 @@ char		*get_path(char **envp);
 char		*get_cmd_path(char *path, char *cmd);
 t_cmd		*get_cmds(t_main_args args, int ignore);
 void		cmd_not_found(char *msg);
+void		cmds_fail(int **pipes, int ignore, t_main_args args);
+void		cmds_fail_0(t_cmd *cmds, int i, int ignore, char *path);
 
 /***********     EXEC_CHILDS **************/
 

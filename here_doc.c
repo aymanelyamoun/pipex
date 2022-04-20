@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:25:21 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 06:26:18 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 07:10:35 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	write_to_fd(int fd, char *str)
 	status = write(fd, str, ft_strlen(str));
 	if (str != NULL)
 		free(str);
-	if (status == -1)
-		exit(2);
 }
 
 char	*call_gnl(void)
