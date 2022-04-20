@@ -20,6 +20,16 @@ void	cmd_not_found(char *msg)
 	exit(3);
 }
 
+t_main_args	set_args(int argc, char **argv, char **envp)
+{
+	t_main_args	args;
+
+	args.argc = argc;
+	args.argv = argv;
+	args.envp = envp;
+	return (args);
+}
+
 t_cmd	*get_cmds(t_main_args args, int ignore)
 {
 	int		i;
@@ -44,4 +54,24 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 		free(path);
 	}
 	return (cmds);
+}
+
+int	**generat_pipes(t_main_args args, int ignore)
+{
+	int		pipes_num;
+	int		i;
+	int		**pipes;
+
+	pipes_num = args.argc - ignore - 2;
+	if (args.argc < 5)
+		ft_exit_with_err(1, "not enough args for the program\n");
+	pipes = malloc(pipes_num * sizeof(int*));
+	i = 0;
+	while (i < pipes_num)
+	{
+		pipes[i] = malloc(sizeof(int) * 2);
+		pipe(pipes[i]);
+		i++;
+	}
+	return (pipes);
 }

@@ -54,40 +54,12 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 		ft_exit_with_err(1, "somthing whent wrong with the forking : \n");
 	if (id_2 == 0)
 		second_child(fd_input, fd_output, fd, cmds);
+	free_cmds(cmds, ignore, args);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(id_1, 0, 0);
 	while(waitpid(-1, 0, 0) >= 0);
 }
-
-t_main_args	set_args(int argc, char **argv, char **envp)
-{
-	t_main_args	args;
-
-	args.argc = argc;
-	args.argv = argv;
-	args.envp = envp;
-	return (args);
-}
-
-// void	print_cmds(t_cmd *cmds, t_main_args args)
-// {
-// 	int i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (i < args.argc - 3)
-// 	{
-// 		j = 0;
-// 		printf("cmd path : %s\n", cmds->cmd_path);
-// 		while (cmds[i].cmd_args[j] != NULL)
-// 		{
-// 			printf("cmd args : %s\n", cmds[i].cmd_args[j]);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
 
 int main(int argc, char **argv, char **envp)
 {
