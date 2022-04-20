@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:27:02 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 07:20:17 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:00:07 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	first_child(int fd_input, int fd_output, int fd[2], t_cmd *cmds)
 	dup2(fd[1], STDOUT_FILENO);
 	ft_close(fd[1], fd[0], fd_input, fd_output);
 	execve(cmds[0].cmd_path, cmds[0].cmd_args, cmds[0].envp);
-	perror("somtithin whent wrogn with execve\n");
+	perror("somthing whent wrogn with execve\n");
 }
 
 void	second_child(int fd_input, int fd_output, int fd[2], t_cmd *cmds)
@@ -42,7 +42,7 @@ void	second_child(int fd_input, int fd_output, int fd[2], t_cmd *cmds)
 	dup2(fd_output, STDOUT_FILENO);
 	ft_close(fd[1], fd[0], fd_input, fd_output);
 	execve(cmds[1].cmd_path, cmds[1].cmd_args, cmds[1].envp);
-	perror("somtithin whent wrogn with execve\n");
+	perror("somthing whent wrogn with execve\n");
 }
 
 void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)

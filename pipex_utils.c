@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:54:21 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 19:53:14 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:05:21 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
 
 void	ft_exit_with_err(int status, char *msg)
 {
-	perror(msg);
+	write(2, msg, ft_strlen(msg));
 	exit(status);
 }
 
 void	cmd_not_found(char *msg)
 {
 	perror(msg);
-	perror(" : cmmand not found");
 }
 
 t_main_args	set_args(int argc, char **argv, char **envp)
@@ -72,7 +71,7 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 		i = ignore;
 		path = get_path(args.envp);
 		if (path == NULL)
-			ft_exit_with_err(3, "coudn't find the path of the cmd\n");
+			ft_exit_with_err(3, "coudn't find the path\n");
 		cmds = malloc(sizeof(t_cmd) * (args.argc - (ignore + 1)));
 		if (cmds == NULL)
 		{
@@ -81,6 +80,8 @@ t_cmd	*get_cmds(t_main_args args, int ignore)
 		}
 		get_cmds_u(&cmds, args, ignore, path);
 		free(path);
+		return (cmds);
 	}
+	ft_exit_with_err(2, "no enough arguments");
 	return (cmds);
 }
