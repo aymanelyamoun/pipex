@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 01:03:14 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/21 01:07:02 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:12:15 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,32 @@ void	write_to_fd(int fd, char *str)
 		free(str);
 }
 
+int	open_in(char *str)
+{
+	int fd;
+
+	if (str != NULL)
+	{
+		fd = open(str, O_CREAT | O_RDWR, 0777);
+		if (fd != -1)
+			return (fd);
+	}
+	exit(2);
+}
+
+int	open_out(char *str)
+{
+	int fd;
+
+	if (str != NULL)
+	{
+		fd = open(str, O_CREAT | O_RDWR | O_TRUNC, 0777);
+		if (fd != -1)
+			return (fd);
+	}
+	exit(2);
+}
+
 void	ft_heredoc(t_main_args args)
 {
 	char	*line;
@@ -48,9 +74,8 @@ void	ft_heredoc(t_main_args args)
 
 	if (args.argc == 6)
 	{
-		fd = open("herdoc", O_CREAT | O_RDWR, 0777);
-		fd_out = open(args.argv[args.argc - 1], O_CREAT | O_RDWR \
-		| O_TRUNC, 0777);
+		fd = open_in("heredoc");
+		fd_out = open_out(args.argv[args.argc - 1]);
 		write(1, "heredoc > ", 10);
 		line = call_gnl();
 		limiter = call_strjoin(args);
@@ -58,9 +83,9 @@ void	ft_heredoc(t_main_args args)
 			line = call_gnl_and_write_fd(fd, line);
 		free_l_l(line, limiter);
 		close(fd);
-		fd = open("herdoc", O_CREAT | O_RDWR, 0777);
+		fd = open_in("heredoc");
 		pipex(fd, fd_out, args, 3);
-		unlink("herdoc");
+		unlink("heredoc");
 		close(fd_out);
 		exit(0);
 	}

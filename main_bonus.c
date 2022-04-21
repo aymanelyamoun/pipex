@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:48:03 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/21 05:59:07 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:02:12 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,20 @@ int	main(int argc, char **argv, char **envp)
 	t_main_args	args;
 
 	args = set_args(argc, argv, envp);
-	if (ft_strcmp(argv[1], "here_doc") == 0)
+	if (argc == 6 && ft_strcmp(argv[1], "here_doc") == 0)
 	{
 		check_cmds(args, 3);
 		ft_heredoc(args);
 	}
-	// check_cmds(args, 2);
-	fd_output = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
-	fd_input = open(argv[1], O_RDONLY, 0777);
-	pipex(fd_input, fd_output, args, 2);
-	close(fd_output);
-	close(fd_input);
-	exit(0);
+	if (argc >= 5)
+	{
+		fd_output = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
+		fd_input = open(argv[1], O_RDONLY, 0777);
+		pipex(fd_input, fd_output, args, 2);
+		close(fd_output);
+		close(fd_input);
+		exit(0);
+	}
+	exit (2);
 }
+
