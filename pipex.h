@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:50:43 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 08:20:12 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 01:07:13 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_cmd		*get_cmds(t_main_args args, int ignore);
 void		cmd_not_found(char *msg);
 void		cmds_fail(int **pipes, int ignore, t_main_args args);
 void		cmds_fail_0(t_cmd *cmds, int i, int ignore, char *path);
+void		check_cmds(t_main_args args, int ignore);
 
 /***********     EXEC_CHILDS **************/
 
@@ -80,6 +81,12 @@ void		free_cmds(t_cmd *cmds, int ignore, t_main_args args);
 
 /***********     HERE_DOC *****************/
 
+char		*call_gnl_and_write_fd(int fd, char *line);
+char		*call_strjoin(t_main_args args);
+void		free_l_l(char *line, char *limiter);
+void		check_cmds(t_main_args args, int ignore);
+void		write_to_fd(int fd, char *str);
+char		*call_gnl(void);
 void		ft_heredoc(t_main_args args);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 08:21:29 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 08:23:51 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:59:08 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,22 @@
 void	cmds_fail_0(t_cmd *cmds, int i, int ignore, char *path)
 {
 	int	j;
+	int	k;
 
-	j = 0;
-	while (j < (i - ignore))
+	k = 0;
+	while (k <= (i - ignore))
 	{
-		if (cmds[i - ignore].cmd_args[j])
-			free(cmds[i - ignore].cmd_args[j]);
-		if (cmds[i - ignore].cmd_path)
-			free(cmds[i - ignore].cmd_path);
-		j++;
+		j = 0;
+		while (cmds[k].cmd_args[j])
+		{
+			free(cmds[k].cmd_args[j]);
+			j++;
+		}
+		if (cmds[k].cmd_path)
+			free(cmds[k].cmd_path);
+		free(cmds[k].cmd_args);
+		k++;
 	}
-	free(cmds[i - ignore].cmd_args);
 	free(cmds);
 	free(path);
 	exit(2);
