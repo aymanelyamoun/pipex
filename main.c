@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:27:02 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:07 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:51:28 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	pipex(int fd_input, int fd_output, t_main_args args, int ignore)
 		ft_exit_with_err(3, "somthing whent wrong with the forking : \n");
 	if (id_2 == 0)
 		second_child(fd_input, fd_output, fd, cmds);
-	free_cmds(cmds, ignore, args);
+	if (id_1 != 0 && id_2 != 0)
+		free_cmds(cmds, ignore, args);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(id_1, 0, 0);
@@ -81,7 +82,12 @@ int	main(int argc, char **argv, char **envp)
 
 	args = set_args(argc, argv, envp);
 	fd_input = open(argv[1], O_RDONLY, 0777);
+	if (fd_input == -1)
+		exit (2);
+
 	fd_output = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (fd_output == -1)
+		exit (2);
 	pipex(fd_input, fd_output, args, 2);
 	close(fd_output);
 	close(fd_input);

@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 02:38:06 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 19:53:24 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:24:05 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ char	*get_cmd_path(char *path, char *cmd)
 	char	*cmd_path;
 
 	i = 0;
-	if (access(cmd, F_OK | X_OK) == 0)
-		return (cmd);
 	paths = ft_split(path, ':');
 	if (paths == NULL)
 		exit(2);
@@ -91,6 +89,8 @@ char	*get_cmd_path(char *path, char *cmd)
 		free(cmd_path);
 		i++;
 	}
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (ft_strdup(cmd));
 	free_arr(paths);
 	cmd_not_found(cmd);
 	return (NULL);

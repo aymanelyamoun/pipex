@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:48:03 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/20 23:37:09 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 05:59:07 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int argc, char **argv, char **envp)
 		check_cmds(args, 3);
 		ft_heredoc(args);
 	}
+	// check_cmds(args, 2);
 	fd_output = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	fd_input = open(argv[1], O_RDONLY, 0777);
 	pipex(fd_input, fd_output, args, 2);
