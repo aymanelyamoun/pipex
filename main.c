@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 06:27:02 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/21 16:51:28 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:19:30 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,18 @@ int	main(int argc, char **argv, char **envp)
 	t_main_args	args;
 
 	args = set_args(argc, argv, envp);
-	fd_input = open(argv[1], O_RDONLY, 0777);
-	if (fd_input == -1)
-		exit (2);
-
-	fd_output = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
-	if (fd_output == -1)
-		exit (2);
-	pipex(fd_input, fd_output, args, 2);
-	close(fd_output);
-	close(fd_input);
-	exit(0);
+	if (argc == 5)
+	{
+		fd_input = open(argv[1], O_RDONLY, 0777);
+		if (fd_input == -1)
+			exit (2);
+		fd_output = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
+		if (fd_output == -1)
+			exit (2);
+		pipex(fd_input, fd_output, args, 2);
+		close(fd_output);
+		close(fd_input);
+		exit(0);
+	}
+	exit(2);
 }
