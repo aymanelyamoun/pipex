@@ -6,7 +6,7 @@
 /*   By: ael-yamo <ael-yamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 01:03:14 by ael-yamo          #+#    #+#             */
-/*   Updated: 2022/04/21 23:12:15 by ael-yamo         ###   ########.fr       */
+/*   Updated: 2022/04/22 00:18:57 by ael-yamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	write_to_fd(int fd, char *str)
 
 int	open_in(char *str)
 {
-	int fd;
+	int	fd;
 
 	if (str != NULL)
 	{
@@ -54,7 +54,7 @@ int	open_in(char *str)
 
 int	open_out(char *str)
 {
-	int fd;
+	int	fd;
 
 	if (str != NULL)
 	{
