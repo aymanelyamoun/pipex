@@ -19,7 +19,7 @@ bonus : $(OBJ_BONUS) pipex.h get_next_line/get_next_line.h
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean :
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ) $(OBJ_BONUS)
 fclean : clean
 	@rm -rf $(NAME)
 clean_bonus :
