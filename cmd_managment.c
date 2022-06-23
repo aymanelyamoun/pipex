@@ -76,7 +76,6 @@ char	*get_cmd_path(char *path, char *cmd)
 
 	i = 0;
 	paths = ft_split(path, ':');
-	free(path);
 	if (paths == NULL)
 		exit(2);
 	while (paths[i] != NULL)
@@ -93,6 +92,6 @@ char	*get_cmd_path(char *path, char *cmd)
 	free_arr(paths);
 	if (access(cmd, F_OK | X_OK) == 0)
 		return (ft_strdup(cmd));
-	perror("minishell");
+	cmd_not_found(cmd);
 	return (NULL);
 }
